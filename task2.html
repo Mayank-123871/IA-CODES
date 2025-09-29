@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      margin: 0;
+      color: white;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .stopwatch {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #222;
+      background: #fff;
+      padding: 20px 40px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+      transition: transform 0.2s ease;
+    }
+    .stopwatch.running {
+      transform: scale(1.05);
+    }
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .buttons button {
+      font-size: 1rem;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .buttons button:hover {
+      transform: scale(1.1);
+    }
+    .start { background: #28a745; color: white; }
+    .pause { background: #ffc107; color: black; }
+    .reset { background: #dc3545; color: white; }
+    .lap { background: #007bff; color: white; }
+    .clear { background: #6c757d; color: white; }
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      width: 260px;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+    ul li {
+      background: #fff;
+      color: #222;
+      padding: 8px;
+      margin: 6px 0;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      font-weight: bold;
+    }
+    @media (max-width: 500px) {
+      .stopwatch {
+        font-size: 2.2rem;
+        padding: 15px 25px;
+      }
+      .buttons button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Stopwatch</h1>
+  <div class="stopwatch" id="display">00:00:00</div>
+  <div class="buttons">
+    <button class="start" onclick="start()">Start</button>
+    <button class="pause" onclick="pause()">Pause</button>
+    <button class="reset" onclick="reset()">Reset</button>
+    <button class="lap" onclick="lap()">Lap</button>
+    <button class="clear" onclick="clearLaps()">Clear Laps</button>
+  </div>
+  <ul id="laps"></ul>
+
+  <script>
+    let timer;
+    let isRunning = false;
+    let seconds = 0, minutes = 0, hours = 0;
+    let lapCount = 0;
+
+    function updateDisplay() {
+      let h = hours < 10 ? "0" + hours : hours;
+      let m = minutes < 10 ? "0" + minutes : minutes;
+      let s = seconds < 10 ? "0" + seconds : seconds;
+      document.getElementById("display").innerText = `${h}:${m}:${s}`;
+    }
+
+    function start() {
+      if (!isRunning) {
+        isRunning = true;
+        document.getElementById("display").classList.add("running");
+        timer = setInterval(() => {
+          seconds++;
+          if (seconds === 60) { seconds = 0; minutes++; }
+          if (minutes === 60) { minutes = 0; hours++; }
+          updateDisplay();
+        }, 1000);
+      }
+    }
+
+    function pause() {
+      clearInterval(timer);
+      isRunning = false;
+      document.getElementById("display").classList.remove("running");
+    }
+
+    function reset() {
+      clearInterval(timer);
+      isRunning = false;
+      seconds = 0; minutes = 0; hours = 0;
+      lapCount = 0;
+      updateDisplay();
+      document.getElementById("laps").innerHTML = "";
+      document.getElementById("display").classList.remove("running");
+    }
+
+    function lap() {
+      if (isRunning) {
+        lapCount++;
+        let lapTime = document.getElementById("display").innerText;
+        let li = document.createElement("li");
+        li.innerText = "Lap " + lapCount + ": " + lapTime;
+        document.getElementById("laps").appendChild(li);
+      }
+    }
+
+    function clearLaps() {
+      document.getElementById("laps").innerHTML = "";
+      lapCount = 0;
+    }
+  </script>
+</body>
+</html>
