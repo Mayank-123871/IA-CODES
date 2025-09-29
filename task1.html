@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Navigation Menu</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 12px 5%;
+      background: transparent;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-sizing: border-box;
+    }
+
+    nav.scrolled {
+      background: #222;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    nav .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #fff;
+      transition: color 0.3s ease;
+      white-space: nowrap;
+    }
+
+    nav.scrolled .logo {
+      color: #ff9800;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    nav ul li {
+      margin-left: 25px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 18px;
+      transition: color 0.3s ease, transform 0.2s ease;
+      display: inline-block;
+    }
+
+    nav.scrolled ul li a {
+      color: #ff9800;
+    }
+
+    nav ul li a:hover {
+      color: #ff5722;
+      transform: scale(1.1);
+    }
+
+    section {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      font-weight: bold;
+      color: #fff;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    #home { background: #3498db; }
+    #about { background: #2ecc71; }
+    #services { background: #9b59b6; }
+    #contact { background: #e74c3c; }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="logo">MyLogo</div>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section id="home">Home Section</section>
+  <section id="about">About Section</section>
+  <section id="services">Services Section</section>
+  <section id="contact">Contact Section</section>
+
+  <script>
+    const navbar = document.getElementById("navbar");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+  </script>
+
+</body>
+</html>
